@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kdazz.comment.mapper.CommentMapper">
+    <resultMap id="BaseResultMap" type="com.kdazz.comment.pojo.entity.Comment">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="articleId" column="article_id" jdbcType="BIGINT"/>
+        <result property="commentLike" column="comment_like" jdbcType="BIGINT"/>
+        <result property="commentDislike" column="comment_dislike" jdbcType="BIGINT"/>
+        <result property="commentContent" column="comment_content" jdbcType="VARCHAR"/>
+        <result property="parentCommentId" column="parent_comment_id" jdbcType="BIGINT"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <association property="childComments" select="getCommentByArticleId"
+                     column="{articleId=article_id,parentId=id}"></association>
+    </resultMap>
+
+    <select id="getCommentByArticleId" resultMap="BaseResultMap">
+        select t1.id, t1.user_id, t1.article_id, t1.comment_like, t1.comment_dislike, t1.comment_content, t1.parent_comment_id, t2.user_name
+        from article_comment t1,
+             admin.user t2
+        where t1.article_id = #{articleId}
+            and t1.parent_comment_id = #{parentId}
+            and t1.user_id = t2.id
+    </select>
+</mapper>
