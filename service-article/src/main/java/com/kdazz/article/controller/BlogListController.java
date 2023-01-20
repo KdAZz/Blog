@@ -18,6 +18,6 @@ public class BlogListController {
 
     @GetMapping("all")
     public R getAll(){
-        return R.ok(service.getList());
+        return R.ok(service.list());
     }
 }

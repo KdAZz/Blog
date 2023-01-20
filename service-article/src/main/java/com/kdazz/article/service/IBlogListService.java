@@ -1,9 +1,7 @@
 package com.kdazz.article.service;
 
-import com.kdazz.pojo.entity.BlogList;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.kdazz.article.pojo.entity.BlogList;
 
-import java.util.List;
-
-public interface IBlogListService {
-    List<BlogList> getList();
+public interface IBlogListService extends IService<BlogList> {
 }

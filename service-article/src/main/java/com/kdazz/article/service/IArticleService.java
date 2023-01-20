@@ -1,9 +1,7 @@
 package com.kdazz.article.service;
 
-import com.kdazz.pojo.entity.Article;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.kdazz.article.pojo.entity.ArticleContent;
 
-import java.util.List;
-
-public interface IArticleService {
-    List<Article> getArticle();
+public interface IArticleService extends IService<ArticleContent> {
 }

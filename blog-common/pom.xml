@@ -15,7 +15,6 @@
         <module>common-redis</module>
         <module>common-web</module>
         <module>common-mybatis-plus</module>
-        <module>common-pojo</module>
     </modules>
 
     <properties>

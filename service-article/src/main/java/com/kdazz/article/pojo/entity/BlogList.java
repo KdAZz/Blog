@@ -1,4 +1,4 @@
-package com.kdazz.pojo.entity;
+package com.kdazz.article.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

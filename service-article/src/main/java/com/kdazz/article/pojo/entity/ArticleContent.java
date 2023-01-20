@@ -1,4 +1,4 @@
-package com.kdazz.pojo.entity;
+package com.kdazz.article.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class Article {
+public class ArticleContent {
 
     @TableId(type = IdType.AUTO)
     private Long id;
