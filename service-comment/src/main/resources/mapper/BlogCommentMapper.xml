@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kdazz.comment.mapper.BlogCommentMapper">
+    <resultMap id="BaseResultMap" type="com.kdazz.comment.pojo.vo.BlogCommentVo">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="blogId" column="blog_id" jdbcType="BIGINT"/>
+        <result property="commentLike" column="comment_like" jdbcType="BIGINT"/>
+        <result property="commentDislike" column="comment_dislike" jdbcType="BIGINT"/>
+        <result property="commentContent" column="comment_content" jdbcType="VARCHAR"/>
+        <result property="parentCommentId" column="parent_comment_id" jdbcType="BIGINT"/>
+        <result property="userName" column="username" jdbcType="VARCHAR"/>
+        <association property="childBlogComments" select="getCommentByBlogId"
+                     column="{blogId=blog_id,parentId=id}"/>
+    </resultMap>
+
+    <select id="getCommentByBlogId" resultMap="BaseResultMap">
+        select t1.id, t1.user_id, t1.blog_id, t1.comment_like, t1.comment_dislike, t1.comment_content, t1.parent_comment_id, t2.username
+        from blog_comment t1,
+             blog_admin.sys_user t2
+        where t1.blog_id = #{blogId}
+          and t1.parent_comment_id = #{parentId}
+          and t1.user_id = t2.id
+    </select>
+</mapper>
