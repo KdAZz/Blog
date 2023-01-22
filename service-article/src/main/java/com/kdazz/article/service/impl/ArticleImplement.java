@@ -25,8 +25,4 @@ public class ArticleImplement extends ServiceImpl<ArticleMapper, ArticleContent>
         return this.baseMapper.getPage(page);
     }
 
-    @Override
-    public Boolean addLike(Long id) {
-        return baseMapper.addLike(id);
-    }
 }

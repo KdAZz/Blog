@@ -6,5 +6,5 @@ import com.kdazz.article.pojo.entity.ArticleLike;
 import java.util.Map;
 
 public interface IArticleLikeService extends IService<ArticleLike> {
-    Boolean likeStatusChange(ArticleLike articleLike);
+    void likeStatusChange(ArticleLike articleLike);
 }
