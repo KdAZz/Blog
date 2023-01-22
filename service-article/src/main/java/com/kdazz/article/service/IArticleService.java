@@ -9,5 +9,8 @@ import com.kdazz.article.pojo.vo.ArticleVo;
 
 public interface IArticleService extends IService<ArticleContent> {
     ArticleDetailVo getArticleById(Long userId);
+
     IPage<ArticleVo> getPageList(Page<ArticleVo> page);
+
+    Boolean addLike(Long id);
 }

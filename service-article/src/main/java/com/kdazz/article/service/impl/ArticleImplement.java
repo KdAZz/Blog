@@ -24,4 +24,9 @@ public class ArticleImplement extends ServiceImpl<ArticleMapper, ArticleContent>
     public IPage<ArticleVo> getPageList(Page<ArticleVo> page) {
         return this.baseMapper.getPage(page);
     }
+
+    @Override
+    public Boolean addLike(Long id) {
+        return baseMapper.addLike(id);
+    }
 }

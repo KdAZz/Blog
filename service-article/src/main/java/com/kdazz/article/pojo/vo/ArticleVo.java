@@ -6,4 +6,5 @@ import lombok.Data;
 @Data
 public class ArticleVo extends ArticleContent {
     private String userName;
+
 }

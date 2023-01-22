@@ -21,4 +21,8 @@ public class ArticleContent {
     private Date createTime;
 
     private Date modifyTime;
+
+    private Long likeNum;
+
+    private Long dislikeNum;
 }
