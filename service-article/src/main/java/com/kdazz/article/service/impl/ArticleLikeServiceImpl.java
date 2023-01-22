@@ -7,13 +7,9 @@ import com.kdazz.article.mapper.ArticleLikeMapper;
 import com.kdazz.article.mapper.ArticleMapper;
 import com.kdazz.article.pojo.entity.ArticleLike;
 import com.kdazz.article.service.IArticleLikeService;
-import com.kdazz.article.service.IArticleService;
 import lombok.RequiredArgsConstructor;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +35,7 @@ public class ArticleLikeServiceImpl extends ServiceImpl<ArticleLikeMapper, Artic
                 this.baseMapper.update(null, luw);
                 articleMapper.changeLike(articleLike);
             }
+        // 不存在直接添加
         } else {
             this.baseMapper.insert(articleLike);
             articleMapper.changeLikeOne(true, articleLike);

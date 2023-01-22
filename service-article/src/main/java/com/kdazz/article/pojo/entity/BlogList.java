@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class BlogList {
     @TableId(type = IdType.AUTO)
@@ -15,5 +17,9 @@ public class BlogList {
 
     private Long forwardCount;
 
-    private Long likeCount;
+    private Long likeNum;
+
+    private Long dislikeNum;
+
+    private Date createTime;
 }
