@@ -1,5 +1,6 @@
 package com.kdazz.article.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -7,15 +8,42 @@ import com.kdazz.article.mapper.ArticleLikeMapper;
 import com.kdazz.article.mapper.ArticleMapper;
 import com.kdazz.article.pojo.entity.ArticleLike;
 import com.kdazz.article.service.IArticleLikeService;
+import com.kdazz.common.constant.GlobalConstants;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
 
 @Service
 @RequiredArgsConstructor
 public class ArticleLikeServiceImpl extends ServiceImpl<ArticleLikeMapper, ArticleLike> implements IArticleLikeService {
 
     private final ArticleMapper articleMapper;
+
+    private final RedisTemplate redisTemplate;
+
+    public Boolean refreshLike(){
+        redisTemplate.delete(Arrays.asList(GlobalConstants.ARTICLE_LIKE_COUNT));
+        //TODO 用redis存储点赞数据
+//        if (this.getLikeCount()) {
+//
+//        }
+        return null;
+    }
+
+    @Override
+    public void likeBlog(ArticleLike articleLike) {
+
+    }
+
+    public Integer getLikeCount(Long articleId) {
+        LambdaQueryWrapper<ArticleLike> query = new LambdaQueryWrapper<>();
+        query.eq(ArticleLike::getArticleId, articleId)
+                .eq(ArticleLike::getLikeType, 1L);
+        return this.baseMapper.selectCount(query);
+    }
 
     @Transactional
     @Override
@@ -41,4 +69,5 @@ public class ArticleLikeServiceImpl extends ServiceImpl<ArticleLikeMapper, Artic
             articleMapper.changeLikeOne(true, articleLike);
         }
     }
+
 }

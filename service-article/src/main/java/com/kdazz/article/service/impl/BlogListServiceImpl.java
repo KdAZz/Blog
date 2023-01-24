@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class BlogListImplement extends ServiceImpl<BlogListMapper, BlogList> implements IBlogListService {
+public class BlogListServiceImpl extends ServiceImpl<BlogListMapper, BlogList> implements IBlogListService {
 
     @Override
     public IPage<BlogVo> getBlogPage(Page<BlogVo> page) {

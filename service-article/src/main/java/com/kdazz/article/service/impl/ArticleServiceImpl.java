@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ArticleImplement extends ServiceImpl<ArticleMapper, ArticleContent> implements IArticleService {
+public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleContent> implements IArticleService {
 
     @Override
     public ArticleDetailVo getArticleById(Long articleId) {
