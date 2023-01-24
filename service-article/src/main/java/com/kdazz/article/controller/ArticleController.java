@@ -10,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping("/article")
 @Slf4j
@@ -53,19 +51,19 @@ public class ArticleController {
         return R.ok(articleService.save(articleContent));
     }
 
-    /**
-     * 点赞
-     */
-    @PutMapping("/like")
-    public R<?> saveArticleLike(@RequestParam Map<String, Object> param) {
-        ArticleLike like = new ArticleLike();
-        Long flag = Long.parseLong((String) param.get("likeType"));
-        like.setLikeType(flag.equals(1L));
-        like.setArticleId(Long.parseLong((String) param.get("articleId")));
-        like.setUserId(Long.parseLong((String) param.get("userId")));
-        articleLikeService.likeStatusChange(like);
-        return R.ok();
-    }
+//    /**
+//     * 点赞
+//     */
+//    @PutMapping("/like")
+//    public R<?> saveArticleLike(@RequestParam Map<String, Object> param) {
+//        ArticleLike like = new ArticleLike();
+//        Long flag = Long.parseLong((String) param.get("likeType"));
+//        like.setLikeType(flag.equals(1L));
+//        like.setArticleId(Long.parseLong((String) param.get("articleId")));
+//        like.setUserId(Long.parseLong((String) param.get("userId")));
+//        articleLikeService.likeStatusChange(like);
+//        return R.ok();
+//    }
 
     @PutMapping("/addLike")
     public R<?> addLike(@RequestBody ArticleLike articleLike) {

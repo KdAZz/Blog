@@ -1,73 +1,104 @@
 package com.kdazz.article.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kdazz.article.mapper.ArticleLikeMapper;
-import com.kdazz.article.mapper.ArticleMapper;
+import com.kdazz.article.pojo.dto.ArticleLikeDto;
+import com.kdazz.article.pojo.dto.LikeDto;
 import com.kdazz.article.pojo.entity.ArticleLike;
+import com.kdazz.article.pojo.vo.ArticleLikeCountVo;
 import com.kdazz.article.service.IArticleLikeService;
 import com.kdazz.common.constant.GlobalConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ArticleLikeServiceImpl extends ServiceImpl<ArticleLikeMapper, ArticleLike> implements IArticleLikeService {
 
-    private final ArticleMapper articleMapper;
-
     private final RedisTemplate redisTemplate;
 
-    public Boolean refreshLike(){
-        redisTemplate.delete(Arrays.asList(GlobalConstants.ARTICLE_LIKE_COUNT));
-        //TODO 用redis存储点赞数据
-//        if (this.getLikeCount()) {
-//
-//        }
-        return null;
-    }
-
-    @Override
-    public void likeBlog(ArticleLike articleLike) {
-
-    }
-
-    public Integer getLikeCount(Long articleId) {
-        LambdaQueryWrapper<ArticleLike> query = new LambdaQueryWrapper<>();
-        query.eq(ArticleLike::getArticleId, articleId)
-                .eq(ArticleLike::getLikeType, 1L);
-        return this.baseMapper.selectCount(query);
-    }
-
-    @Transactional
-    @Override
-    public void likeStatusChange(ArticleLike articleLike) {
-        QueryWrapper<ArticleLike> qwr = new QueryWrapper<>();
-        qwr.eq("user_id", articleLike.getUserId());
-        qwr.eq("article_id", articleLike.getArticleId());
-        ArticleLike articleLike1 = this.baseMapper.selectOne(qwr);
-        // 判断当前用户在article_like表中是否有记录，有则进行修改
-        if (articleLike1 != null) {
-            // 当状态不同时进行修改
-            if (!articleLike.getLikeType().equals(articleLike1.getLikeType())) {
-                LambdaUpdateWrapper<ArticleLike> luw = new LambdaUpdateWrapper<>();
-                luw.eq(ArticleLike::getUserId, articleLike.getUserId())
-                        .eq(ArticleLike::getArticleId, articleLike.getArticleId())
-                        .set(ArticleLike::getLikeType, articleLike.getLikeType());
-                this.baseMapper.update(null, luw);
-                articleMapper.changeLike(articleLike);
-            }
-        // 不存在直接添加
-        } else {
-            this.baseMapper.insert(articleLike);
-            articleMapper.changeLikeOne(true, articleLike);
+    // 获取当前文章的喜欢数量
+    public ArticleLikeCountVo getLikeCount(Long articleId) {
+        ArticleLikeCountVo likeVo = (ArticleLikeCountVo) redisTemplate.opsForHash().get(GlobalConstants.ARTICLE_LIKE_COUNT, articleId.toString());
+        System.out.println(likeVo);
+        if (likeVo != null) {
+            return likeVo;
         }
+        ArticleLikeCountVo vo =this.getLikeToJson(articleId);
+        redisTemplate.opsForHash().put(GlobalConstants.ARTICLE_LIKE_COUNT, articleId.toString(), vo);
+        return vo;
+    }
+
+    @Override
+    public Boolean addLike(Boolean bool, LikeDto likeDto) {
+        String articleId = likeDto.getArticleId().toString();
+        ArticleLikeCountVo likeCountVo = (ArticleLikeCountVo) redisTemplate.opsForHash().get(GlobalConstants.ARTICLE_LIKE_COUNT, articleId);
+        Boolean isLike = redisTemplate.opsForSet().isMember(GlobalConstants.ARTICLE_LIKE_USER + likeDto.getArticleId(), likeDto.getUserId());
+        Boolean dislike = redisTemplate.opsForSet().isMember(GlobalConstants.ARTICLE_DISLIKE_USER + likeDto.getArticleId(), likeDto.getUserId());
+        assert likeCountVo != null;
+        if (bool) {
+            if (!isLike) {
+                redisTemplate.opsForSet().add(GlobalConstants.ARTICLE_LIKE_USER + likeDto.getArticleId(), likeDto.getUserId());
+                likeCountVo.setLikeNum(likeCountVo.getLikeNum() + 1L);
+                redisTemplate.opsForHash().put(GlobalConstants.ARTICLE_LIKE_COUNT, likeCountVo.getArticleId().toString(), likeCountVo);
+            }
+            if (dislike) {
+                redisTemplate.opsForSet().remove(GlobalConstants.ARTICLE_DISLIKE_USER + likeDto.getArticleId(), likeDto.getUserId());
+                likeCountVo.setDislikeNum(likeCountVo.getDislikeNum() - 1L);
+                redisTemplate.opsForHash().put(GlobalConstants.ARTICLE_LIKE_COUNT, likeCountVo.getArticleId().toString(), likeCountVo);
+            }
+            return true;
+        }
+        if (!dislike) {
+            redisTemplate.opsForSet().add(GlobalConstants.ARTICLE_DISLIKE_USER + likeDto.getArticleId(), likeDto.getUserId());
+            likeCountVo.setDislikeNum(likeCountVo.getDislikeNum() + 1L);
+            redisTemplate.opsForHash().put(GlobalConstants.ARTICLE_LIKE_COUNT, likeCountVo.getArticleId().toString(), likeCountVo);
+        }
+        if (isLike) {
+            redisTemplate.opsForSet().remove(GlobalConstants.ARTICLE_LIKE_USER + likeDto.getArticleId(), likeDto.getUserId());
+            likeCountVo.setLikeNum(likeCountVo.getLikeNum() - 1);
+            redisTemplate.opsForHash().put(GlobalConstants.ARTICLE_LIKE_COUNT, likeCountVo.getArticleId().toString(), likeCountVo);
+        }
+        return true;
+    }
+
+    @Override
+    public Boolean removeLike(Boolean bool, LikeDto likeDto) {
+        if (bool) {
+            Boolean isLike = redisTemplate.opsForSet().isMember(GlobalConstants.ARTICLE_LIKE_USER + likeDto.getArticleId(), likeDto.getUserId());
+            if (isLike) {
+                redisTemplate.opsForSet().remove(GlobalConstants.ARTICLE_LIKE_USER + likeDto.getArticleId(), likeDto.getUserId());
+                ArticleLikeCountVo likeVo = (ArticleLikeCountVo) redisTemplate.opsForHash().get(GlobalConstants.ARTICLE_LIKE_COUNT, likeDto.getArticleId().toString());
+                likeVo.setLikeNum(likeVo.getLikeNum() - 1);
+                redisTemplate.opsForHash().put(GlobalConstants.ARTICLE_LIKE_COUNT, likeVo.getArticleId().toString(), likeVo);
+            }
+            return true;
+        }
+        Boolean disLike = redisTemplate.opsForSet().isMember(GlobalConstants.ARTICLE_DISLIKE_USER + likeDto.getArticleId(), likeDto.getUserId());
+        if (disLike) {
+            redisTemplate.opsForSet().remove(GlobalConstants.ARTICLE_DISLIKE_USER + likeDto.getArticleId(), likeDto.getUserId());
+            ArticleLikeCountVo likeVo = (ArticleLikeCountVo) redisTemplate.opsForHash().get(GlobalConstants.ARTICLE_LIKE_COUNT, likeDto.getArticleId().toString());
+            System.out.println(likeVo);
+            likeVo.setDislikeNum(likeVo.getDislikeNum() - 1);
+            redisTemplate.opsForHash().put(GlobalConstants.ARTICLE_LIKE_COUNT, likeVo.getArticleId().toString(), likeVo);
+        }
+        return true;
+    }
+
+    public ArticleLikeCountVo getLikeToJson(Long articleId) {
+        ArticleLikeCountVo likeCountVo = new ArticleLikeCountVo(articleId, 0L, 0L);
+        List<ArticleLikeDto> dtoList = this.baseMapper.getLikeCount(articleId);
+        dtoList.forEach(item -> {
+            if (item.getLikeType()) {
+                likeCountVo.setLikeNum(item.getCount());
+            } else {
+                likeCountVo.setDislikeNum(item.getCount());
+            }
+        });
+        return likeCountVo;
     }
 
 }

@@ -1,14 +1,15 @@
 package com.kdazz.article.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.kdazz.article.pojo.dto.LikeDto;
 import com.kdazz.article.pojo.entity.ArticleLike;
+import com.kdazz.article.pojo.vo.ArticleLikeCountVo;
 
 public interface IArticleLikeService extends IService<ArticleLike> {
-    void likeStatusChange(ArticleLike articleLike);
 
-    void likeBlog(ArticleLike articleLike);
+    ArticleLikeCountVo getLikeCount(Long articleId);
 
-    Boolean refreshLike();
+    Boolean addLike(Boolean bool, LikeDto likeDto);
 
-    Integer getLikeCount(Long id);
+    Boolean removeLike(Boolean bool, LikeDto likeDto);
 }
