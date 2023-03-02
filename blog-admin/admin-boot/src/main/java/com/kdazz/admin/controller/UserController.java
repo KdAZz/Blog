@@ -29,4 +29,9 @@ public class UserController {
         sysUserService.createUser(req);
         return R.ok();
     }
+
+    @GetMapping("/author/{authorId}")
+    public R<String> getAuthorNameById(@PathVariable Long authorId){
+        return R.ok(sysUserService.getById(authorId));
+    }
 }

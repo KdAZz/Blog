@@ -11,6 +11,4 @@ public class ArticleLikeCountVo {
     private Long articleId;
 
     private Long likeNum;
-
-    private Long dislikeNum;
 }

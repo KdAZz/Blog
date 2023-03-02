@@ -1,15 +1,15 @@
 package com.kdazz.article.pojo.vo;
 
+import com.kdazz.article.pojo.entity.ArticleCategory;
 import com.kdazz.article.pojo.entity.ArticleContent;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class ArticleDetailVo extends ArticleContent {
-    private String username;
+public class ArticleDetailVo {
+    private String authorName;
 
-    private Long concernNum;
+    private ArticleCategory category;
 
-    private Long articleNum;
-
-    private Long beConcernNum;
+    private ArticleContent content;
 }

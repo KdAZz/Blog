@@ -29,6 +29,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
+    public String getById(Long authorId){
+        return this.baseMapper.selectById(authorId).getUsername();
+    }
+
+    @Override
     public void createUser(SaveUserReq req) {
         // 生成密码
         String passwd = passwordEncoder.encode(req.getPassword());

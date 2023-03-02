@@ -1,7 +1,6 @@
 package com.kdazz.article.controller;
 
 import com.kdazz.article.pojo.dto.LikeDto;
-import com.kdazz.article.pojo.entity.ArticleLike;
 import com.kdazz.article.service.IArticleLikeService;
 import com.kdazz.common.result.R;
 import lombok.RequiredArgsConstructor;
@@ -22,21 +21,12 @@ public class ArticleLikeController {
 
     @PutMapping("/addLike")
     public R<?> addLike(@RequestBody LikeDto likeDto){
-            return R.ok(articleLikeService.addLike(true, likeDto));
-    }
-
-    @PutMapping("/addDisLike")
-    public R<?> addDisLike(@RequestBody LikeDto likeDto) {
-        return R.ok(articleLikeService.addLike(false, likeDto));
+            return articleLikeService.addLike(likeDto);
     }
 
     @PutMapping("/removeLike")
     public R<?> removeLike(@RequestBody LikeDto likeDto) {
-        return R.ok(articleLikeService.removeLike(true, likeDto));
+        return articleLikeService.removeLike(likeDto);
     }
 
-    @PutMapping("/removeDisLike")
-    public R<?> removeDisLike(@RequestBody LikeDto likeDto) {
-        return R.ok(articleLikeService.removeLike(false, likeDto));
-    }
 }

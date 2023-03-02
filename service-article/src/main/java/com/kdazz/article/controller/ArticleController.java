@@ -51,19 +51,17 @@ public class ArticleController {
         return R.ok(articleService.save(articleContent));
     }
 
-//    /**
-//     * 点赞
-//     */
-//    @PutMapping("/like")
-//    public R<?> saveArticleLike(@RequestParam Map<String, Object> param) {
-//        ArticleLike like = new ArticleLike();
-//        Long flag = Long.parseLong((String) param.get("likeType"));
-//        like.setLikeType(flag.equals(1L));
-//        like.setArticleId(Long.parseLong((String) param.get("articleId")));
-//        like.setUserId(Long.parseLong((String) param.get("userId")));
-//        articleLikeService.likeStatusChange(like);
-//        return R.ok();
-//    }
+    /**
+     * 通过分类ID获取文章列表
+     * @param categoryId
+     * @return
+     */
+    @GetMapping("/category")
+    public R getArticleByCategory(@RequestParam(required = false, defaultValue = "1") int page,
+                                  @RequestParam(required = false, defaultValue = "10") int pageSize,
+                                  @RequestParam Long categoryId){
+        return R.ok(articleService.getArticleByCategory(new Page<>(page, pageSize), categoryId));
+    }
 
     @PutMapping("/addLike")
     public R<?> addLike(@RequestBody ArticleLike articleLike) {

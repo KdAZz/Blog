@@ -10,5 +10,7 @@ public interface ISysUserService extends IService<SysUser> {
 
     UserAuthDTO getByUsername(String username);
 
+    String getById(Long authorId);
+
     void createUser(SaveUserReq req);
 }

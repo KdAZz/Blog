@@ -9,8 +9,6 @@ public class ArticleLike implements Serializable {
     private static final long serialVersionUID = 1L;
     private Long userId;
 
-    private Boolean likeType;
-
     private Long articleId;
     
 }

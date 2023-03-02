@@ -14,4 +14,7 @@ public interface UserFeignClient {
 
     @GetMapping("/api/v1/users/member/username/{username}")
     R<UserAuthDTO> getMemberUserByUsername(@PathVariable String username);
+
+    @GetMapping("/api/v1/users/author/{authorId}")
+    R<String> getAuthorNameById(@PathVariable Long authorId);
 }

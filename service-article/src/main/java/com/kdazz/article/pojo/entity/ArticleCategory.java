@@ -4,22 +4,14 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
-public class ArticleContent {
-
+public class ArticleCategory {
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    private Long authorId;
+    private String categoryName;
 
-    private String title;
+    private Boolean isShow;
 
-    private String content;
-
-    private Date createTime;
-
-    private Date modifyTime;
-
+    private String categoryDescription;
 }
