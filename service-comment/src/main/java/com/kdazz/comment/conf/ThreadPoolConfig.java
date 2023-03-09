@@ -1,8 +1,8 @@
-package com.kdazz.article.conf;
+package com.kdazz.comment.conf;
 
-import com.kdazz.article.util.CustomBlockingQueue;
+import com.kdazz.comment.utils.CustomBlockingQueue;
+import com.sun.istack.internal.NotNull;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

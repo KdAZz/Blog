@@ -1,7 +1,7 @@
 package com.kdazz.article.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kdazz.article.pojo.dto.LikeDto;
+import com.kdazz.common.dto.LikeDto;
 import com.kdazz.article.pojo.entity.ArticleLike;
 import com.kdazz.common.result.R;
 

@@ -4,10 +4,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kdazz.article.pojo.entity.ArticleContent;
-import com.kdazz.article.pojo.entity.ArticleLike;
-import com.kdazz.article.pojo.vo.ArticleDetailVo;
 import com.kdazz.article.pojo.vo.ArticleVo;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface ArticleMapper extends BaseMapper<ArticleContent> {

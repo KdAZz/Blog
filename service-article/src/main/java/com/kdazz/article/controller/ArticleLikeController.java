@@ -1,7 +1,7 @@
 package com.kdazz.article.controller;
 
-import com.kdazz.article.pojo.dto.LikeDto;
 import com.kdazz.article.service.IArticleLikeService;
+import com.kdazz.common.dto.LikeDto;
 import com.kdazz.common.result.R;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

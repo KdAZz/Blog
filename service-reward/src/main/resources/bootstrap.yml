@@ -1,9 +1,9 @@
 server:
-  port: 8000
+  port: 8002
 
 spring:
   application:
-    name: service-article
+    name: service-reward
   cloud:
     nacos:
       # 注册中心

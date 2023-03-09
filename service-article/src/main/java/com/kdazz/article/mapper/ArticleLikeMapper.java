@@ -1,7 +1,7 @@
 package com.kdazz.article.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.kdazz.article.pojo.dto.LikeDto;
+import com.kdazz.common.dto.LikeDto;
 import com.kdazz.article.pojo.entity.ArticleLike;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;

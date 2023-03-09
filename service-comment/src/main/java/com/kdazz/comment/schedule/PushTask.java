@@ -1,7 +1,7 @@
-package com.kdazz.article.schedule;
+package com.kdazz.comment.schedule;
 
 import cn.hutool.json.JSONUtil;
-import com.kdazz.article.conf.ServerConfigurer;
+import com.kdazz.comment.conf.ServerConfigurer;
 import com.kdazz.common.dto.LikeDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static com.kdazz.common.constant.GlobalConstants.LIKE_WAIT_DElETE_SET;
-import static com.kdazz.common.constant.GlobalConstants.LIKE_WAIT_SET;
+import static com.kdazz.common.constant.GlobalConstants.*;
 
 @Slf4j
 @Component
@@ -26,19 +25,29 @@ public class PushTask {
 
     private final WaitProcessor waitProcessor;
 
-    @Scheduled(cron = "0 6/20 * * * ?")
-    public void waitPushLikeTask() {
-        waitTask(LIKE_WAIT_SET, waitProcessor::pushWait);
+    @Scheduled(cron = "0 */20 * * * ?")
+    public void waitPushArticleLikeTask() {
+        waitTask(COMMENT_ARTICLE_LIKE_WAIT, waitProcessor::pushArticleCommentLike);
     }
 
-    @Scheduled(cron = "0 15/20 * * * ? ")
-    public void deleteWaitLike() {
-        waitTask(LIKE_WAIT_DElETE_SET, waitProcessor::deleteLike);
+    @Scheduled(cron = "0 9/20 * * * ? ")
+    public void waitDeleteArticleLikeTask() {
+        waitTask(COMMENT_ARTICLE_LIKE_WAIT_DELETE, waitProcessor::deleteArticleCommentLike);
+    }
+
+    @Scheduled(cron = "0 3/20 * * * ?")
+    public void waitPushBlogLikeTask() {
+        waitTask(COMMENT_BLOG_LIKE_WAIT, waitProcessor::pushBlogCommentLike);
+    }
+
+    @Scheduled(cron = "0 12/20 * * * ? ")
+    public void waitDeleteBlogLikeTask() {
+        waitTask(COMMENT_BLOG_LIKE_WAIT_DELETE, waitProcessor::deleteBlogCommentLike);
     }
 
     public void waitTask(String str, Consumer<Object> consumer) {
         Long size = redisTemplate.opsForSet().size(str);
-        //redis里面没有要消费的数据
+        // redis里面没有要消费的数据
         if (size == null || size == 0) {
             return;
         }

@@ -9,7 +9,7 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>service-comment</artifactId>
+    <artifactId>service-reward</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -18,11 +18,7 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-        </dependency>
-
+        <!-- Spring Cloud & Alibaba -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
@@ -48,29 +44,6 @@
         <dependency>
             <groupId>org.example</groupId>
             <artifactId>common-mybatis-plus</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.kdazz</groupId>
-            <artifactId>common-base</artifactId>
-            <version>1.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>common-redis</artifactId>
             <version>1.0.0</version>
         </dependency>
     </dependencies>

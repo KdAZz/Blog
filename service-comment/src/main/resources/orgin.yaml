@@ -6,3 +6,15 @@ spring:
     username: root
     password: 123456
     url: jdbc:mysql://127.0.0.1:3306/blog?characterEncoding=UTF-8&useSSL=false&rewriteBatchedStatements=true&&allowPublicKeyRetrieval=true
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000
+      cache-null-value: true
+      user-key-perfix: true
+      key-perfix: 'admin:'

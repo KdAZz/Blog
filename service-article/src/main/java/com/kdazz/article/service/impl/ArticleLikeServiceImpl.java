@@ -1,9 +1,9 @@
 package com.kdazz.article.service.impl;
 
-import com.alibaba.fastjson.JSON;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kdazz.article.mapper.ArticleLikeMapper;
-import com.kdazz.article.pojo.dto.LikeDto;
+import com.kdazz.common.dto.LikeDto;
 import com.kdazz.article.pojo.entity.ArticleLike;
 import com.kdazz.article.service.IArticleLikeService;
 import com.kdazz.common.result.R;
@@ -42,7 +42,7 @@ public class ArticleLikeServiceImpl extends ServiceImpl<ArticleLikeMapper, Artic
         if (Boolean.TRUE.equals(member)) {
             return R.failed("已点赞");
         }
-        String str = JSON.toJSONString(likeDto);
+        String str = JSONUtil.toJsonStr(likeDto);
         //检测删除队列
         if (Boolean.TRUE.equals(redisTemplate.opsForSet().isMember(LIKE_WAIT_DElETE_SET, str))) {
             redisTemplate.opsForSet().remove(LIKE_WAIT_DElETE_SET, str);
@@ -61,7 +61,7 @@ public class ArticleLikeServiceImpl extends ServiceImpl<ArticleLikeMapper, Artic
             redisTemplate.opsForSet().remove(LIKE_SET_USER + likeDto.getArticleId(), likeDto.getUserId().toString());
         }
         //删除等待推送的数据
-        String str = JSON.toJSONString(likeDto);
+        String str = JSONUtil.toJsonStr(likeDto);
         if (Boolean.TRUE.equals(redisTemplate.opsForSet().isMember(LIKE_WAIT_SET, str))) {
             redisTemplate.opsForSet().remove(LIKE_WAIT_SET, str);
         }

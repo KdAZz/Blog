@@ -1,6 +1,6 @@
 package com.kdazz.article.schedule;
 
-import com.kdazz.article.pojo.dto.LikeDto;
+import com.kdazz.common.dto.LikeDto;
 import com.kdazz.article.service.IArticleLikeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -20,4 +20,6 @@ public class WaitProcessor {
     public void deleteLike(Object likeDto) {
         handlerOrderExecutor.execute(() -> likeService.deleteLike((LikeDto) likeDto));
     }
+
+    //TODO 创建失败队列
 }
