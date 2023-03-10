@@ -45,7 +45,7 @@ public class PushTask {
         waitTask(COMMENT_BLOG_LIKE_WAIT_DELETE, waitProcessor::deleteBlogCommentLike);
     }
 
-    public void waitTask(String str, Consumer<Object> consumer) {
+    public void waitTask(String str, Consumer<LikeDto> consumer) {
         Long size = redisTemplate.opsForSet().size(str);
         // redis里面没有要消费的数据
         if (size == null || size == 0) {

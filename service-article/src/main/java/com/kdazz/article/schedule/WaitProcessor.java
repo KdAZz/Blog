@@ -13,12 +13,12 @@ public class WaitProcessor {
     private final ThreadPoolExecutor handlerOrderExecutor;
 
     private final IArticleLikeService likeService;
-    public void pushWait(Object likeDto) {
-        handlerOrderExecutor.execute(() -> likeService.pushLike((LikeDto) likeDto));
+    public void pushWait(LikeDto likeDto) {
+        handlerOrderExecutor.execute(() -> likeService.pushLike(likeDto));
     }
 
-    public void deleteLike(Object likeDto) {
-        handlerOrderExecutor.execute(() -> likeService.deleteLike((LikeDto) likeDto));
+    public void deleteLike(LikeDto likeDto) {
+        handlerOrderExecutor.execute(() -> likeService.deleteLike(likeDto));
     }
 
     //TODO 创建失败队列

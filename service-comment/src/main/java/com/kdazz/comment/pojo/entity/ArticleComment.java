@@ -12,10 +12,6 @@ public class ArticleComment {
 
     Long articleId;
 
-    Long commentLike;
-
-    Long commentDislike;
-
     String commentContent;
 
     Long parentCommentId;

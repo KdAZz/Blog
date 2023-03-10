@@ -7,8 +7,6 @@
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="userId" column="user_id" jdbcType="BIGINT"/>
         <result property="articleId" column="article_id" jdbcType="BIGINT"/>
-        <result property="commentLike" column="comment_like" jdbcType="BIGINT"/>
-        <result property="commentDislike" column="comment_dislike" jdbcType="BIGINT"/>
         <result property="commentContent" column="comment_content" jdbcType="VARCHAR"/>
         <result property="parentCommentId" column="parent_comment_id" jdbcType="BIGINT"/>
         <result property="userName" column="username" jdbcType="VARCHAR"/>
@@ -17,7 +15,7 @@
     </resultMap>
 
     <select id="getCommentByArticleId" resultMap="ResultMap">
-        select t1.id, t1.user_id, t1.article_id, t1.comment_like, t1.comment_dislike, t1.comment_content, t1.parent_comment_id, t2.username
+        select t1.id, t1.user_id, t1.article_id, t1.comment_content, t1.parent_comment_id, t2.username
         from article_comment t1,
              blog_admin.sys_user t2
         where t1.article_id = #{articleId}

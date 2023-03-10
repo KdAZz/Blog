@@ -18,7 +18,7 @@ public class ArticleCommentController {
     private final IArticleCommentService articleCommentService;
 
     @GetMapping("/{articleId}")
-    public R getCommentByArticleId(@PathVariable Long articleId) {
+    public R<?> getCommentByArticleId(@PathVariable Long articleId) {
         IPage<ArticleCommentVo> page = articleCommentService.getCommentByArticleId(new Page<>(1, 10), articleId);
         return R.ok(page);
     }

@@ -10,10 +10,6 @@ public class BlogComment {
 
     Long blogId;
 
-    Long commentLike;
-
-    Long commentDislike;
-
     String commentContent;
 
     Long parentCommentId;

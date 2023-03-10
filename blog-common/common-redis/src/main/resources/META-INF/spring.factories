@@ -1,3 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.kdazz.redis.config.RedisConfig,\
-  com.kdazz.redis.util.RedisUtils
+  com.kdazz.redis.util.RedisUtils,\
+  com.kdazz.redis.util.LuaRemUtil,\
+  com.kdazz.redis.util.LuaUtil,\
+  com.kdazz.redis.util.LikeHandler

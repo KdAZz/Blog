@@ -16,20 +16,20 @@ public class WaitProcessor {
     private final IArticleCommentService articleCommentService;
 
     private final IBlogCommentService blogCommentService;
-    public void pushArticleCommentLike(Object likeDto) {
-        handlerOrderExecutor.execute(() -> articleCommentService.pushLike((LikeDto) likeDto));
+    public void pushArticleCommentLike(LikeDto likeDto) {
+        handlerOrderExecutor.execute(() -> articleCommentService.pushLike(likeDto));
     }
 
-    public void deleteArticleCommentLike(Object likeDto) {
-        handlerOrderExecutor.execute(() -> articleCommentService.deleteLike((LikeDto) likeDto));
+    public void deleteArticleCommentLike(LikeDto likeDto) {
+        handlerOrderExecutor.execute(() -> articleCommentService.deleteLike(likeDto));
     }
 
-    public void pushBlogCommentLike(Object likeDto) {
-        handlerOrderExecutor.execute(() -> blogCommentService.pushLike((LikeDto) likeDto));
+    public void pushBlogCommentLike(LikeDto likeDto) {
+        handlerOrderExecutor.execute(() -> blogCommentService.pushLike(likeDto));
     }
 
-    public void deleteBlogCommentLike(Object likeDto) {
-        handlerOrderExecutor.execute(() -> blogCommentService.deleteLike((LikeDto) likeDto));
+    public void deleteBlogCommentLike(LikeDto likeDto) {
+        handlerOrderExecutor.execute(() -> blogCommentService.deleteLike(likeDto));
     }
 
     //TODO 创建失败队列
