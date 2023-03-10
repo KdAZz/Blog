@@ -54,15 +54,4 @@ public class BlogCommentServiceImpl extends ServiceImpl<BlogCommentMapper, BlogC
     public R<?> removeDislike(LikeDto likeDto) {
         return handler.likeHandler(likeDto, false, false, false);
     }
-
-    @Override
-    public void pushLike(LikeDto likeDto) {
-        baseMapper.insertLike(likeDto);
-    }
-
-    @Override
-    public void deleteLike(LikeDto likeDto) {
-        baseMapper.delete(query().eq("article_id",
-                likeDto.getArticleId()).eq("user_id", likeDto.getUserId()));
-    }
 }

@@ -20,8 +20,4 @@ public interface IBlogCommentService extends IService<BlogComment> {
     R<?> removeLike(LikeDto likeDto);
 
     R<?> removeDislike(LikeDto likeDto);
-
-    void pushLike(LikeDto likeDto);
-
-    void deleteLike(LikeDto likeDto);
 }

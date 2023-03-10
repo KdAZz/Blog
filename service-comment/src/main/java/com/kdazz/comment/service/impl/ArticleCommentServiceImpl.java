@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kdazz.comment.mapper.ArticleCommentMapper;
 import com.kdazz.comment.pojo.entity.ArticleComment;
 import com.kdazz.comment.pojo.vo.ArticleCommentVo;
+import com.kdazz.comment.service.IArticleCommentLikeService;
 import com.kdazz.comment.service.IArticleCommentService;
 import com.kdazz.common.dto.LikeDto;
 import com.kdazz.common.result.R;
@@ -26,6 +27,8 @@ public class ArticleCommentServiceImpl extends ServiceImpl<ArticleCommentMapper,
     private final LikeHandler handler;
 
     private final StringRedisTemplate redisTemplate;
+
+    private final IArticleCommentLikeService likeService;
 
     @Override
     public IPage<ArticleCommentVo> getCommentByArticleId(Page<ArticleCommentVo> page, Long articleId) {
@@ -57,14 +60,4 @@ public class ArticleCommentServiceImpl extends ServiceImpl<ArticleCommentMapper,
         return handler.likeHandler(likeDto, true, false, false);
     }
 
-    @Override
-    public void pushLike(LikeDto likeDto) {
-        baseMapper.insertLike(likeDto);
-    }
-
-    @Override
-    public void deleteLike(LikeDto likeDto) {
-        baseMapper.delete(query().eq("article_id",
-                likeDto.getArticleId()).eq("user_id", likeDto.getUserId()));
-    }
 }

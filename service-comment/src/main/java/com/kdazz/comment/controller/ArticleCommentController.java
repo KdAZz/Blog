@@ -2,6 +2,8 @@ package com.kdazz.comment.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.kdazz.comment.pojo.entity.ArticleComment;
+import com.kdazz.comment.pojo.entity.BlogComment;
 import com.kdazz.common.dto.LikeDto;
 import com.kdazz.comment.pojo.vo.ArticleCommentVo;
 import com.kdazz.comment.service.IArticleCommentService;
@@ -23,6 +25,23 @@ public class ArticleCommentController {
         return R.ok(page);
     }
 
+    @PostMapping
+    public R<?> newArticleComment(@RequestBody ArticleComment articleComment) {
+        return articleCommentService.save(articleComment) ? R.ok("评论成功"): R.failed("评论失败");
+    }
+
+    //TODO 待升级
+    @DeleteMapping("/{commentId}/{userId}")
+    public R<?> deleteArticleComment(@PathVariable Long commentId, @PathVariable Long userId) {
+        if (articleCommentService.getById(commentId).getArticleId().equals(userId)) {
+            return articleCommentService.removeById(commentId) ? R.ok("删除成功") : R.failed("删除失败，可能已删除");
+        }
+        return R.failed("当前用户不能删除这条评论");
+    }
+
+    /**
+     * add likes
+     */
     @PutMapping("/like")
     public R<?> addLike(@RequestBody LikeDto likeDto) {
         return articleCommentService.addLike(likeDto);
@@ -33,6 +52,9 @@ public class ArticleCommentController {
         return articleCommentService.disLike(likeDto);
     }
 
+    /**
+     * remove likes
+     */
     @DeleteMapping("/like")
     public R<?> removeLike(@RequestParam Long userId, @RequestParam Long articleId) {
         LikeDto likeDto = new LikeDto();
