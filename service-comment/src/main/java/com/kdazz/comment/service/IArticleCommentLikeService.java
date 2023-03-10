@@ -1,11 +1,20 @@
 package com.kdazz.comment.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.kdazz.comment.pojo.entity.ArticleLike;
+import com.kdazz.comment.pojo.entity.ArticleCommentLike;
 import com.kdazz.common.dto.LikeDto;
+import com.kdazz.common.result.R;
 
-public interface IArticleCommentLikeService extends IService<ArticleLike> {
-    int pushLike(LikeDto likeDto);
+public interface IArticleCommentLikeService extends IService<ArticleCommentLike> {
+    void pushLike(LikeDto likeDto);
 
     void deleteLike(LikeDto likeDto);
+
+    R<?> addLike(LikeDto likeDto);
+
+    R<?> disLike(LikeDto likeDto);
+
+    R<?> removeLike(LikeDto likeDto);
+
+    R<?> removeDislike(LikeDto likeDto);
 }

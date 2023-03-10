@@ -26,16 +26,18 @@ public class LuaUtil {
         ADD_ARTICLE_LIKE_SCRIPT.setResultType(Long.class);
     }
 
-//    public void useScript(LikeDto likeDto, Boolean type, String likeSet, String dislikeSet, String waitPushLike,
-//                          String waitDeleteLike, String waitPushDisLike, String waitDeleteDislike) {
-//        log.info(redisTemplate.execute(
-//                ADD_ARTICLE_LIKE_SCRIPT,
-//                Collections.emptyList(),
-//                likeDto.getArticleId().toString(), likeDto.getUserId().toString(), likeSet,
-//                dislikeSet, waitPushLike, waitDeleteLike,
-//                waitPushDisLike, waitDeleteDislike, type.toString()
-//        ).equals(1L) ? "like success" : "dislike success");
-//    }
+/*
+    public void useScript(LikeDto likeDto, Boolean type, String likeSet, String dislikeSet, String waitPushLike,
+                          String waitDeleteLike, String waitPushDisLike, String waitDeleteDislike) {
+        log.info(redisTemplate.execute(
+                ADD_ARTICLE_LIKE_SCRIPT,
+                Collections.emptyList(),
+                likeDto.getArticleId().toString(), likeDto.getUserId().toString(), likeSet,
+                dislikeSet, waitPushLike, waitDeleteLike,
+                waitPushDisLike, waitDeleteDislike, type.toString()
+        ).equals(1L) ? "like success" : "dislike success");
+    }
+*/
 
     public R<?> addLike(Operator operator) {
         String set = operator.getType() ? operator.getLikeSet() : operator.getDislikeSet();

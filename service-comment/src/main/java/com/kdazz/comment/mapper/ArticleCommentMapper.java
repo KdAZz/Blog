@@ -15,9 +15,4 @@ public interface ArticleCommentMapper extends BaseMapper<ArticleComment> {
 
     IPage<ArticleCommentVo> getCommentByArticleId(Page<ArticleCommentVo> page, @Param("articleId")Long articleId, @Param("parentId")Long parentId);
 
-    @Insert("INSERT article_comment_like (article_id, user_id)\n" +
-            "\tSELECT #{articleId},#{userId}\n" +
-            "\t\tWHERE NOT EXISTS (SELECT * FROM article_like WHERE" +
-            " article_id = #{articleId} AND user_id = #{userId})\n")
-    void insertLike(LikeDto likeDto);
 }

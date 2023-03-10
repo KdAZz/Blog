@@ -14,10 +14,4 @@ import org.apache.ibatis.annotations.Param;
 public interface BlogCommentMapper extends BaseMapper<BlogComment> {
 
     IPage<BlogCommentVo> getCommentByBlogId(Page<BlogCommentVo> page, @Param("blogId")Long blogId, @Param("parentId")Long parentId);
-
-    @Insert("INSERT blog_comment_like (article_id, user_id)\n" +
-            "\tSELECT #{articleId},#{userId}\n" +
-            "\t\tWHERE NOT EXISTS (SELECT * FROM article_like WHERE" +
-            " article_id = #{articleId} AND user_id = #{userId})\n")
-    void insertLike(LikeDto likeDto);
 }

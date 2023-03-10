@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kdazz.comment.pojo.entity.BlogComment;
 import com.kdazz.comment.pojo.vo.BlogCommentVo;
+import com.kdazz.comment.service.IBlogCommentLikeService;
 import com.kdazz.comment.service.IBlogCommentService;
 import com.kdazz.common.dto.LikeDto;
 import com.kdazz.common.result.R;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class BlogCommentController {
     private final IBlogCommentService blogCommentService;
+
+    private final IBlogCommentLikeService blogCommentLikeService;
 
     @GetMapping("/{blogId}")
     public R getCommentByBlogId(@PathVariable Long blogId){
@@ -30,20 +33,20 @@ public class BlogCommentController {
     //TODO 待升级
     @DeleteMapping("/{commentId}/{userId}")
     public R<?> deleteBlogComment(@PathVariable Long commentId, @PathVariable Long userId) {
-        if (blogCommentService.getById(commentId).getBlogId().equals(userId)) {
-            return blogCommentService.removeById(commentId) ? R.ok("删除成功") : R.failed("删除失败，可能已删除");
+        if (blogCommentLikeService.getById(commentId).getBlogId().equals(userId)) {
+            return blogCommentLikeService.removeById(commentId) ? R.ok("删除成功") : R.failed("删除失败，可能已删除");
         }
         return R.failed("当前用户不能删除这条评论");
     }
 
     @PutMapping("/like")
     public R<?> addLike(@RequestBody LikeDto likeDto) {
-        return blogCommentService.addLike(likeDto);
+        return blogCommentLikeService.addLike(likeDto);
     }
 
     @PutMapping("/dislike")
     public R<?> disLike(@RequestBody LikeDto likeDto) {
-        return blogCommentService.disLike(likeDto);
+        return blogCommentLikeService.disLike(likeDto);
     }
 
     @DeleteMapping("/like")
@@ -51,7 +54,7 @@ public class BlogCommentController {
         LikeDto likeDto = new LikeDto();
         likeDto.setArticleId(articleId);
         likeDto.setUserId(userId);
-        return blogCommentService.removeLike(likeDto);
+        return blogCommentLikeService.removeLike(likeDto);
     }
 
     @DeleteMapping("/dislike")
@@ -59,6 +62,6 @@ public class BlogCommentController {
         LikeDto likeDto = new LikeDto();
         likeDto.setArticleId(articleId);
         likeDto.setUserId(userId);
-        return blogCommentService.removeDislike(likeDto);
+        return blogCommentLikeService.removeDislike(likeDto);
     }
 }
